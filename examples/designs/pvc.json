@@ -1,0 +1,29 @@
+{
+  "id": "pvc",
+  "name": "Thin PVC drive pipe (bursts)",
+  "parameters": {
+    "Hs": 25,
+    "L": 25,
+    "D": 0.05,
+    "mat": "pvc",
+    "e": 0.0005,
+    "ds": 0.05,
+    "stroke": 0.006,
+    "vmass": 0.3,
+    "vratio": 0.9,
+    "dc": 0.025,
+    "Vch": 0.004,
+    "Dch": 0.1,
+    "pumpMat": "castiron",
+    "tb": 0.008,
+    "tch": 0.006,
+    "Dd": 0.025,
+    "Ld": 200,
+    "h": 80,
+    "dmat": "hdpe",
+    "ed": 0.0023,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}

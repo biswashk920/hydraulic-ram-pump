@@ -1,0 +1,29 @@
+{
+  "id": "long",
+  "name": "Long pipeline, 2 km",
+  "parameters": {
+    "Hs": 20,
+    "L": 80,
+    "D": 0.15,
+    "mat": "steel",
+    "e": 0.006,
+    "ds": 0.15,
+    "stroke": 0.01,
+    "vmass": 0.3,
+    "vratio": 0.8,
+    "dc": 0.08,
+    "Vch": 0.03,
+    "Dch": 0.25,
+    "pumpMat": "castiron",
+    "tb": 0.012,
+    "tch": 0.008,
+    "Dd": 0.08,
+    "Ld": 2000,
+    "h": 300,
+    "dmat": "hdpe",
+    "ed": 0.0073,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}

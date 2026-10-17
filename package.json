@@ -1,0 +1,16 @@
+{
+  "name": "hydraulic-ram-pump",
+  "version": "1.0.0",
+  "description": "Hydraulic ram pump simulator: water-hammer physics, sectional view, pipe and pump bursting, CSV export.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/physics.test.js",
+    "test:e2e": "node tests/e2e.js",
+    "build": "node tools/build.js",
+    "examples": "node tools/export-examples.js",
+    "report": "node tools/presets-report.js",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": { "playwright": "^1.45.0" },
+  "engines": { "node": ">=18" }
+}

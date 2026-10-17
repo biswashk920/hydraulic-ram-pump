@@ -1,0 +1,9 @@
+design,name,seconds,beats_per_min,intake_L,wasted_L,stored_L,delivered_L,dAubuisson_eta,peak_body_head_m,failures
+village,"Village pump (default)",240,63.0,564.28,500.09,26.67,37.52,0.299,22.9,none
+small,"Small garden pump",240,47.5,238.74,211.39,10.03,17.33,0.339,9.3,none
+tall,"Tall lift, 60 m",240,35.4,1391.28,1270.18,121.10,0.00,0.000,66.5,none
+farm,"Farm pump, 15 m head",240,43.8,3030.65,2710.23,320.55,0.00,0.000,205.5,none
+long,"Long pipeline, 2 km",240,39.9,6533.88,4500.80,2033.51,0.00,0.000,159.9,none
+pvc,"Thin PVC drive pipe (bursts)",240,66.9,2198.05,1167.03,88.06,0.00,0.000,100.8,drive@101.6s
+body,"Thin cast-iron body (bursts)",240,51.9,1304.38,451.98,58.51,0.00,0.000,48.9,body@86.7s
+chamber,"Weak air chamber (bursts)",240,42.4,1219.08,691.74,0.00,0.00,0.000,30.7,chamber@44.2s

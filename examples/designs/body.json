@@ -1,0 +1,29 @@
+{
+  "id": "body",
+  "name": "Thin cast-iron body (bursts)",
+  "parameters": {
+    "Hs": 12,
+    "L": 30,
+    "D": 0.05,
+    "mat": "steel",
+    "e": 0.0035,
+    "ds": 0.05,
+    "stroke": 0.0042,
+    "vmass": 0.3,
+    "vratio": 0.8,
+    "dc": 0.025,
+    "Vch": 0.004,
+    "Dch": 0.1,
+    "pumpMat": "castiron",
+    "tb": 0.00012,
+    "tch": 0.006,
+    "Dd": 0.025,
+    "Ld": 200,
+    "h": 60,
+    "dmat": "hdpe",
+    "ed": 0.0023,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hydraulic Ram Pump</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="app">
+  <header><h1>Hydraulic Ram Pump</h1><p>water-hammer simulator · SI units · heads in m of water above the pump centreline</p><nav><a href="#howto">How to use this</a></nav></header>
+  <div class="grid">
+    <div class="stage">
+      <figure class="card"><figcaption>System elevation (vertical scale true)</figcaption><canvas id="cSys" aria-label="System elevation: intake, drive pipe, ram pump, delivery pipe and tank"></canvas></figure>
+      <div class="row2">
+        <figure class="card"><figcaption>Pump section</figcaption><canvas id="cSec" aria-label="Cutaway section of the ram pump"></canvas></figure>
+        <div class="col">
+          <figure class="card"><canvas id="cScope" aria-label="Pressure, velocity and valve traces"></canvas></figure>
+          <div class="status"><span class="dot" id="dot"></span><span id="status">Supply valve closed</span></div>
+          <div class="tiles" id="tiles"></div>
+        </div>
+      </div>
+      <div class="row3">
+        <section class="pane" aria-labelledby="h-str"><h2 id="h-str">Strength check</h2><div class="bars" id="bars"></div></section>
+        <section class="pane" aria-labelledby="h-bal"><h2 id="h-bal">Water balance</h2><div id="bal"></div></section>
+        <section class="pane" aria-labelledby="h-chk"><h2 id="h-chk">Design check</h2><div class="chips" id="chips"></div></section>
+      </div>
+    </div>
+    <aside>
+      <div class="cmd">
+        <button id="valveBtn" aria-pressed="false">Open supply valve</button>
+        <div><div class="lbl">Simulation speed</div>
+          <div class="seg" id="speed"><button data-s="0.01">0.01×</button><button data-s="0.1">0.1×</button><button data-s="1" aria-pressed="true">1×</button><button data-s="5">5×</button><button data-s="30">30×</button></div></div>
+        <button id="resetBtn">Reset and repair</button>
+      </div>
+      <div id="presets"><div class="lbl">Examples</div><select id="presetSel" aria-label="Load an example design"></select><p class="hint" id="presetNote" style="padding:6px 0 0"></p></div>
+      <div id="controls"></div>
+      <p class="hint" id="hint"></p>
+      <div class="exp">
+        <div class="lbl">Export</div>
+        <div class="pair"><button id="dlDesign">Design and results (CSV)</button><button class="ghost" id="cpDesign" title="Copy to clipboard">Copy</button></div>
+        <div class="pair"><button id="dlLog">Run log (CSV)</button><button class="ghost" id="cpLog" title="Copy to clipboard">Copy</button></div>
+        <div class="pair"><button id="dlTrace">Pump traces (CSV)</button><button class="ghost" id="cpTrace" title="Copy to clipboard">Copy</button></div>
+        <div class="pair"><button id="ldDesign">Load a design CSV</button><input type="file" id="fileIn" accept=".csv,text/csv" hidden></div>
+        <p>The design CSV can be loaded back to restore every value.</p>
+      </div>
+    </aside>
+  </div>
+
+  <section class="howto" id="howto" aria-labelledby="h-how">
+    <h2 id="h-how">How to use this</h2>
+    <div class="cols">
+      <article>
+        <h3>Quick start</h3>
+        <ol>
+          <li>Choose an example from the list, or keep the default village pump.</li>
+          <li>Press <b>Open supply valve</b>. Water starts to run down the drive pipe and out of the open waste valve.</li>
+          <li>Watch the pump section. When the flow is fast enough the flap snaps shut, the pressure jumps, and a little water is pushed through the check valve into the air chamber. The flap then drops open again and the cycle repeats about once a second.</li>
+          <li>The delivery pipe fills a little more on every beat. At 1× speed the first water reaches the tank after about a minute. Use 5× or 30× to skip ahead and 0.01× to watch one blow in slow motion.</li>
+          <li>Change any value on the right. The pump restarts from rest, and the supply valve keeps the position you set.</li>
+          <li>Read the strength check, water balance and design check below the drawings, then export a CSV.</li>
+        </ol>
+      </article>
+      <article>
+        <h3>How a ram pump works</h3>
+        <ol>
+          <li><b>Acceleration.</b> The waste valve hangs open under its spring. Water falls through the drive pipe and escapes, gaining speed.</li>
+          <li><b>Slam.</b> At a critical speed the flow through the valve gap pushes the flap shut. The moving water column stops suddenly and the pressure rises by about <code>a·V/g</code> (water hammer).</li>
+          <li><b>Delivery.</b> The pressure spike is higher than the pressure in the air chamber, so the check valve lifts and some water enters the chamber. The trapped air is the spring that keeps the delivery pipe moving between beats.</li>
+          <li><b>Recoil.</b> The pressure collapses, sometimes below atmospheric. The check valve shuts, the spring opens the waste valve, and the cycle starts again.</li>
+        </ol>
+      </article>
+      <article>
+        <h3>What you are looking at</h3>
+        <ul>
+          <li><b>System elevation.</b> Vertical distances are to scale. The drive pipe is coloured by the pressure inside it, so you can see the pressure wave travel. The dashed orange line is the head in the air chamber. Water leaves for the tank when that line reaches the tank level plus friction.</li>
+          <li><b>Pump section.</b> A cutaway of the supply gate valve, pump body, spring-loaded waste valve (plate inside the body, spring below), check valve and air chamber. Colours show pressure, white dots show flow, and the numbers update live.</li>
+          <li><b>Traces.</b> Top lane: head in the body and in the air chamber. Middle lane: drive-pipe velocity and delivery velocity. Bottom lane: waste flap lift and check valve lift. The window shortens in slow motion so you can see detail.</li>
+          <li><b>Colour scale.</b> Blue is low pressure, then teal, amber and red as head rises. Violet means suction.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>What each control does</h3>
+        <div class="scrollx"><table>
+          <tr><th>Control</th><th>Effect</th></tr>
+          <tr><td>Intake level</td><td>Supply head <i>Hs</i>. Sets the driving pressure and, with the delivery lift, the lift ratio.</td></tr>
+          <tr><td>Drive pipe length, diameter, material, wall</td><td>Set the water mass that must be stopped, the friction and the hammer wave speed. Stiff pipe gives a fast wave and a bigger spike.</td></tr>
+          <tr><td>Waste valve seat, stroke, spring preload, mass</td><td>Decide when the flap closes and how long it stays open. Preload is relative to the static-head force on the seat; above 1 the valve opens by itself at rest. More stroke means a slower beat and more waste.</td></tr>
+          <tr><td>Check valve bore</td><td>A small bore throttles the delivery stream and raises the spike.</td></tr>
+          <tr><td>Air chamber volume, diameter, wall</td><td>More air smooths the delivery flow and lowers the peak pressure. Too little air gives violent spikes.</td></tr>
+          <tr><td>Pump material and walls</td><td>Body and chamber strength. A body that is too thin bursts.</td></tr>
+          <tr><td>Delivery pipe diameter, length, lift, material, wall</td><td>Friction and static head the pump must overcome. There is no upper limit on lift: type any value in the number box.</td></tr>
+          <tr><td>Pipe starts full</td><td>Starts with the delivery pipe already full and the chamber at static pressure.</td></tr>
+          <tr><td>Supply valve time</td><td>How long the gate takes to open or close fully.</td></tr>
+          <tr><td>Allow parts to burst</td><td>Turn off to study pressures without destroying anything.</td></tr>
+        </table></div>
+      </article>
+      <article>
+        <h3>Reading the results</h3>
+        <ul>
+          <li><b>Beats per minute.</b> Counted from waste valve closures. Typical ram pumps run 30 to 120.</li>
+          <li><b>Efficiency.</b> D'Aubuisson efficiency, <code>η = Qdelivered·h / (Qdrive·Hs)</code>. Rankine efficiency, which subtracts the supply head from the lift, is always lower. Values of 30 to 70 percent are normal. The tile averages the last few seconds and shows a dash until water reaches the tank.</li>
+          <li><b>Water balance.</b> Every litre drawn at the intake is listed as wasted, lost in a burst, stored in the chamber, filling the delivery pipe, or delivered. The residual is the small volume squeezed into the elastic drive pipe. It should read close to zero.</li>
+          <li><b>Hammer peak.</b> Highest body head since the last reset.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Bursting</h3>
+        <p>Every step the model computes the hoop stress <code>σ = ρ g H (D + t) / (2t)</code> in the drive pipe (worst point along its length), pump body, air chamber and delivery pipe (at its lower end). When σ reaches the short-term tensile strength of the chosen material, that part bursts: it tears open, water sprays out at a height set by the real head, and the leak is included in the balance. A burst drive pipe stops the pump. A burst body or chamber stops delivery. Reset and repair restores everything.</p>
+        <p>With normal walls nothing bursts. To see failures, reduce a wall thickness, pick PVC or HDPE with a thin wall, raise the intake level, or shrink the air chamber so the spikes grow. The strength check shows how close each part came and the head at which it would burst.</p>
+      </article>
+      <article>
+        <h3>If the pump stalls</h3>
+        <div class="scrollx"><table>
+          <tr><th>Symptom</th><th>Try</th></tr>
+          <tr><td>Flap never closes, water just runs out</td><td>Lower the spring preload, reduce the stroke or raise the intake level. The flow must be able to push the flap shut.</td></tr>
+          <tr><td>Flap closes once and stays shut</td><td>Raise the spring preload above 1 so it reopens at static pressure.</td></tr>
+          <tr><td>Beats but nothing reaches the tank</td><td>The lift is too high for the supply head. Raise the intake level, lower the lift, or enlarge the delivery pipe.</td></tr>
+          <tr><td>Very slow beat</td><td>Shorten the drive pipe or reduce the stroke.</td></tr>
+          <tr><td>Parts burst</td><td>Thicker walls, a stronger material, a larger air chamber or a larger check valve bore.</td></tr>
+        </table></div>
+        <p>Rules of thumb from ram pump practice: drive pipe length 3 to 12 times the supply head and 150 to 1000 times its diameter, lift up to about 20 times the supply head. The design check flags values outside these ranges.</p>
+      </article>
+      <article>
+        <h3>Exporting your design</h3>
+        <ul>
+          <li><b>Design and results.</b> Every input in SI units and in display units, the current results, strength and water balance. Load it back with <b>Load a design CSV</b>.</li>
+          <li><b>Run log.</b> One row every 0.25 s of simulated time: flows, head, front position, volumes and beats.</li>
+          <li><b>Pump traces.</b> The recent solver output at full resolution: body head, chamber head, velocities, flap and check valve lift.</li>
+          <li>If your browser blocks the download, use <b>Copy</b> and paste into a spreadsheet.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>What the model includes and leaves out</h3>
+        <ul>
+          <li>Drive pipe: elastic water hammer with friction, including suction down to about −9.5 m of head, where the model holds the pressure instead of separating the water column.</li>
+          <li>Waste valve: a mass on a spring with a flow-dependent closing force, tuned to behave like a real clack valve. It is a model of the typical behaviour, not a measurement of one product.</li>
+          <li>Delivery pipe: a rigid column with friction. Its own water hammer is ignored.</li>
+          <li>Strength uses short-term tensile strength at 20 °C. Fatigue, corrosion, temperature and buckling are not modelled, and a real installation should use manufacturer pressure ratings with a safety factor.</li>
+          <li>The check valve has no inertia, so real peak pressures can be higher than shown.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+</div>
+<div id="toast" hidden></div>
+<dialog id="dlg"><div class="lbl" id="dlgTitle">CSV</div><textarea id="dlgText" readonly></textarea><menu><button id="dlgCopy">Copy</button><button id="dlgClose">Close</button></menu></dialog>
+<script src="src/physics.js"></script>
+<script src="src/views/effects.js"></script>
+<script src="src/views/system.js"></script>
+<script src="src/views/section.js"></script>
+<script src="src/views/scope.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>

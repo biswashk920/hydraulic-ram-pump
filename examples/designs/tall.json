@@ -1,0 +1,29 @@
+{
+  "id": "tall",
+  "name": "Tall lift, 60 m",
+  "parameters": {
+    "Hs": 5,
+    "L": 25,
+    "D": 0.075,
+    "mat": "steel",
+    "e": 0.004,
+    "ds": 0.075,
+    "stroke": 0.0112,
+    "vmass": 0.3,
+    "vratio": 0.8,
+    "dc": 0.04,
+    "Vch": 0.01,
+    "Dch": 0.15,
+    "pumpMat": "castiron",
+    "tb": 0.008,
+    "tch": 0.006,
+    "Dd": 0.032,
+    "Ld": 150,
+    "h": 60,
+    "dmat": "hdpe",
+    "ed": 0.0029,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "small",
+  "name": "Small garden pump",
+  "parameters": {
+    "Hs": 1.5,
+    "L": 8,
+    "D": 0.04,
+    "mat": "steel",
+    "e": 0.003,
+    "ds": 0.04,
+    "stroke": 0.007,
+    "vmass": 0.3,
+    "vratio": 0.8,
+    "dc": 0.02,
+    "Vch": 0.002,
+    "Dch": 0.08,
+    "pumpMat": "castiron",
+    "tb": 0.008,
+    "tch": 0.006,
+    "Dd": 0.02,
+    "Ld": 30,
+    "h": 7,
+    "dmat": "hdpe",
+    "ed": 0.0019,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "farm",
+  "name": "Farm pump, 15 m head",
+  "parameters": {
+    "Hs": 15,
+    "L": 60,
+    "D": 0.1,
+    "mat": "steel",
+    "e": 0.005,
+    "ds": 0.1,
+    "stroke": 0.0098,
+    "vmass": 0.3,
+    "vratio": 0.8,
+    "dc": 0.05,
+    "Vch": 0.02,
+    "Dch": 0.2,
+    "pumpMat": "castiron",
+    "tb": 0.012,
+    "tch": 0.008,
+    "Dd": 0.04,
+    "Ld": 250,
+    "h": 150,
+    "dmat": "hdpe",
+    "ed": 0.0037,
+    "prefilled": false,
+    "burst": true,
+    "valveTime": 2
+  }
+}
