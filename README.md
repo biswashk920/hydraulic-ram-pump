@@ -10,12 +10,11 @@ A browser simulator of a **hydraulic ram pump**: water runs down a drive pipe fr
 - [Physics](#physics) · [Tests](#tests) · [Python notebook](#python-notebook) · [CSV files](#csv-files) · [Project layout](#project-layout) · [Limits](#limits-and-assumptions)
 
 ## Quick start
-No install is needed to run it:
+**Run it locally:** open `docs/index.html` in Chrome, Edge or any Chromium browser (double-click it; no install, no server). That one file is the whole app.
 
-1. Open `index.html` in Chrome, Edge or any Chromium browser (or `dist/ram-pump.html`, the single-file build).
-2. Press **Open supply valve**. The pump starts beating after a few seconds.
+**Publish on GitHub Pages:** push the repo, then Settings → Pages → Source: *Deploy from a branch* → Branch `main`, folder `/docs`. The app appears at `https://<you>.github.io/<repo>/`.
 
-Or serve the folder: `npm run serve` and open <http://localhost:8080>.
+Then press **Open supply valve**. The pump starts beating after a few seconds.
 
 ## Features
 - Sectional cutaway of the pump: supply valve, waste (impulse) valve flap and spring, check valve, air chamber, with colours showing pressure head.
@@ -70,7 +69,7 @@ The water balance closes: the body and delivery residuals are about 1e-16 m³ an
 npm test            # 17 physics tests (node:test, no dependencies)
 npm i && npx playwright install chromium
 npm run test:e2e    # 11 checks in headless Chromium
-npm run build       # writes dist/ram-pump.html (one self-contained file)
+npm run build       # rebuilds docs/index.html from src/ (only needed after editing src/)
 ```
 The physics tests cover wave speed, hoop stress and burst head, Joukowsky surge, steady flow, water balance, energy, efficiency, every burst case, all material combinations and determinism. The browser test loads the page, runs the pump, checks the balance, exercises CSV export and import, the removed lift cap, all presets, reset, auto-tune, dark theme and phone width, and fails on any console error.
 
@@ -93,18 +92,16 @@ Examples in [`examples/`](examples): `designs/*.json` (all presets) and `results
 
 ## Project layout
 ```
-index.html            the app (loads src/)
-src/physics.js        solver (also usable from Node)
-src/app.js            UI, presets, CSV
-src/views/            system, section, scope, effects canvases
-src/styles.css
-dist/ram-pump.html    single-file build
-tests/                physics.test.js, e2e.js
-python/               notebook, data, requirements
-tools/                build, presets report, tuning, exporters
+docs/index.html       THE APP: one self-contained page (served by GitHub Pages)
 docs/theory.md        equations and assumptions
-examples/             design and result examples
+docs/screenshots/     images used in this README
+src/                  editable sources: physics.js, app.js, views/, styles.css, page.template
+tools/                build.js (src -> docs/index.html), presets report, exporters
+tests/                physics.test.js, e2e.js
+python/               notebook, JS reference data, requirements
+examples/             preset designs (JSON) and result CSV
 ```
+Edit `src/`, then run `npm run build` to refresh `docs/index.html`.
 
 ## Limits and assumptions
 - Slider ranges are wide, and typed values are accepted up to hard limits (intake head 0.2–500 m, drive pipe 1–5000 m, lift up to 5000 m, delivery length up to 50 km). The design check chips flag a lift that is hard for the intake head and any part over its pressure rating.

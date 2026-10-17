@@ -7,9 +7,10 @@
     "test": "node --test tests/physics.test.js",
     "test:e2e": "node tests/e2e.js",
     "build": "node tools/build.js",
+    "pretest:e2e": "node tools/build.js",
     "examples": "node tools/export-examples.js",
     "report": "node tools/presets-report.js",
-    "serve": "python3 -m http.server 8080"
+    "serve": "python3 -m http.server 8080 --directory docs"
   },
   "devDependencies": { "playwright": "^1.45.0" },
   "engines": { "node": ">=18" }

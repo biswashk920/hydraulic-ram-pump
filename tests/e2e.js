@@ -4,7 +4,7 @@
 const assert = require('node:assert/strict');
 const path = require('path'), fs = require('fs');
 let chromium; try { ({ chromium } = require('playwright')); } catch (e) { console.error('Install playwright first: npm i -D playwright'); process.exit(2); }
-const url = 'file://' + path.join(__dirname, '..', 'index.html');
+const url = 'file://' + path.join(__dirname, '..', 'docs', 'index.html');
 const shots = path.join(__dirname, '..', 'docs', 'screenshots'); fs.mkdirSync(shots, { recursive: true });
 let passed = 0; const ok = (name) => { passed++; console.log('  ok  ' + name); };
 
